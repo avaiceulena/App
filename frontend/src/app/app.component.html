@@ -1,0 +1,110 @@
+<div style="text-align: center">
+  <h1>Employee Manager</h1>
+</div>
+
+<div class="title">
+  <h2>Employee List</h2>
+</div>
+
+<div class="table">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Job Title</th>
+        <th>Phone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let employee of employees">
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.jobTitle }}</td>
+        <td>{{ employee.phone }}</td>
+        <td>
+          <button (click)="editEmployee(employee)">Edit</button>
+          <button (click)="deleteEmployee(employee.id)">Delete</button>
+        </td>
+      </tr>
+
+      <tr *ngIf="editingEmployee">
+        <td><input type="text" [(ngModel)]="editingEmployee.name" /></td>
+        <td><input type="email" [(ngModel)]="editingEmployee.email" /></td>
+        <td><input type="text" [(ngModel)]="editingEmployee.jobTitle" /></td>
+        <td><input type="tel" [(ngModel)]="editingEmployee.phone" /></td>
+        <td>
+          <button (click)="saveEmployeeChanges()">Save</button>
+          <button (click)="cancelEditing()">Cancel</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="title">
+  <h2>Add New Employee</h2>
+</div>
+<div class="addNewEmployee" *ngIf="addingNew">
+  <form (submit)="addNewEmployee()">
+    <div>
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="newEmployee.name"
+        required
+      />
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="newEmployee.email"
+        required
+      />
+    </div>
+    <div>
+      <label for="jobTitle">Job Title:</label>
+      <input
+        type="text"
+        id="jobTitle"
+        name="jobTitle"
+        [(ngModel)]="newEmployee.jobTitle"
+        required
+      />
+    </div>
+    <div>
+      <label for="phone">Phone:</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        [(ngModel)]="newEmployee.phone"
+        required
+      />
+    </div>
+
+    <input
+      type="hidden"
+      id="employeeCode"
+      name="employeeCode"
+      [(ngModel)]="newEmployee.employeeCode"
+    />
+    <div class="button-container">
+      <button type="submit">Add Employee</button>
+      <button type="button" (click)="cancelAdding()">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<div id="firstButton" *ngIf="!addingNew">
+  <button (click)="toggleAdding()">Add New Employee</button>
+</div>
+
+<p *ngIf="errorMessage">{{ errorMessage }}</p>
